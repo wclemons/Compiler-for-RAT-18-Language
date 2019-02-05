@@ -57,7 +57,7 @@ while(!eof)
 
 close file
 */
-string Lexer(string a)
+string Lexer(file inputFile)
 {
 
 	
