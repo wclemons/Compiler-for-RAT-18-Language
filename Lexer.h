@@ -57,26 +57,28 @@ while(!eof)
 
 close file
 */
-const string[13] OPERATORS = ["+", "-", "%", "/", "*", "<", ">", "=", "==", "<=", ">=", "!=", "."];
-const string[87] KEYWORDS = ["while", "if", "else", "for", "do", "alignas", "alignof", "and", "and_eq", "asm", "auto", "bitand", "bitor", "bool",
-				"break", "case", "catch", "char", "char16_t", "char32_t", "class", "compl", "const", "constexpr", "const_cast",
-				"continue", "decltype", "default", "delete", "do", "double", "dynamic_cast", "else", "enum", "explicit", "export",				//35
-				"extern", "false", "float", "for", "friend", "goto", "if", "inline", "int", "long", "mutable", "namespace", "new",
-				"noexcept", "not", "not_eq", "nullptr", "operator", "or", "or_eq", "private", "protected", "public", "register",
-				"reinterpret_cast", "return", "short", "sizeof", "static", "static_assert", "static_cast", "struct", "switch",
-				"template", "this", "thread_local", "throw", "true", "try", "typedef", "typeid", "typename", "union", "unsigned",
-				"using", "virtual", "void", "volatile", "wchar_t", "while", "xor", "xor_eq"]
-struct SymbolEntry{
-		string tokenType;
-    string lexemes;
-};
-    SymbolEntry(string, string);
+#pragma once
+#include <string>
+#include <list>
+#include <cassert>
+#include <iostream>
+using namespace std;
 
-class SymbolTable{
+enum TokenTypes { Keyword, Identifier, Separator, Operator, Literal, Real };
+
+
+struct Token {
+     string tokenType;
+     string lexeme;
+     int startingIndex;
+     Token(string, string, int);
+};
+
+class SymbolTable {
 private:
-     list<SymbolEntry> table;
+     list<Token> entries;
 public:
-		 void addEntry(SymbolEntry);
+     void addEntry(Token);
      void printTable();
 };
 
@@ -84,22 +86,13 @@ class Lexer {
 private:
      string sourceCode;
      int indexCursor;
-     SymbolTable tokens;
 public:
-		 void getSourceCode(string); //Opens and reads file contents into a string
-     void getTokens(); //Loop that generates tokens to populate symbol table
-     SymbolTable lexer(); //Parses string to find the next available token
-     bool isKeyword();
-     bool isSeparator();
-     bool isIdentifier();
-     bool isOperator();
-     bool isReal();
+     SymbolTable nextToken(); //Parses string to find the next available token
+     bool getSourceCode(string, string&); //Opens and reads file contents into a string
+     bool isKeyword(string);
+     bool isSeparator(string);
+     bool isIdentifier(string);
+     bool isOperator(string);
+     bool isReal(string);
 
 };
-
-
-string Lexer(file inputFile)
-{
-
-	
-}
