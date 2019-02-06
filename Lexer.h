@@ -1,7 +1,8 @@
 #pragma once
+#include <string>
+#include <list>
+#include <cassert>
 #include <iostream>
-#include <string.h>
-#include <vector>
 using namespace std;
 
 /*
@@ -57,13 +58,6 @@ while(!eof)
 
 close file
 */
-#pragma once
-#include <string>
-#include <list>
-#include <cassert>
-#include <iostream>
-using namespace std;
-
 enum TokenTypes { Keyword, Identifier, Separator, Operator, Literal, Real };
 
 
