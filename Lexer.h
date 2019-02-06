@@ -57,6 +57,39 @@ while(!eof)
 
 close file
 */
+const string[13] OPERATORS = "+", "-", "%", "/", "*", "<", ">", "=", "==", "<=", ">=", "!=", ".";
+ruct SymbolEntry{
+		string tokenType;
+    string lexemes;
+};
+    SymbolEntry(string, string);
+
+class SymbolTable{
+private:
+     list<SymbolEntry> table;
+public:
+		 void addEntry(SymbolEntry);
+     void printTable();
+};
+
+class Lexer {
+private:
+     string sourceCode;
+     int indexCursor;
+     SymbolTable tokens;
+public:
+		 void getSourceCode(string); //Opens and reads file contents into a string
+     void getTokens(); //Loop that generates tokens to populate symbol table
+     SymbolTable lexer(); //Parses string to find the next available token
+     bool isKeyword();
+     bool isSeparator();
+     bool isIdentifier();
+     bool isOperator();
+     bool isReal();
+
+};
+
+
 string Lexer(file inputFile)
 {
 
