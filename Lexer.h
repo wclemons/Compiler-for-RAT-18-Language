@@ -73,4 +73,5 @@ public:
      bool isIdentifier(string, string&);
      bool isOperator(char);
      bool isReal(string, string&);
+	bool isInteger(string, string&);
 };
