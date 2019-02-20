@@ -80,42 +80,19 @@ Token Lexer::nextToken() {
 
      }
      
-     else if (isOperator(codeChunk[0])) {
-          //Store the operator lexeme
-          string opLexeme = "";
-          opLexeme += codeChunk[0];
-          
-          //Update the code chunk
-          if (codeChunk.size() == 1) {
-               sourceCode.erase(sourceCode.begin());
-          }
-          else {
-               sourceCode[0] = codeChunk.substr(1, codeChunk.size());
-          }
-          
-          //Return the token
-          return Token("operator", opLexeme);
-     }
-
-     else if (isSeparator(codeChunk[0])) {
-          //Store the separator lexeme
-          string sepLexeme;
-          sepLexeme += codeChunk[0];
-          
-          //Update the code chunk
-          if (codeChunk.size() == 1) {
-               sourceCode.erase(sourceCode.begin());
-          }
-          else {
-               sourceCode[0] = codeChunk.substr(1, codeChunk.size());
-          }
-
-          //Return the token
-          return Token("separator", sepLexeme);
-     }
-
-     else if (isReal(codeChunk, buffer)) {
+     else if (isInteger(codeChunk, buffer)) {
           //Get the amount of characters that were used/validated by the FSM
+
+          string saveBuffer = buffer; //Save the contents of the buffer from isInteger so that if isReal fails, we still have the int value.
+          buffer = ""; //Flush the buffer
+          bool realOrInt = 0; //Flag variable, 0 for integer, 1 for real.
+          
+          if (isReal(codeChunk, buffer)) {
+               realOrInt = 1;
+          }
+          else
+               buffer = saveBuffer;
+
           string processedSubstring;  //Stores what was processed by the FSM
           bool processedWholeChunk = false; //Determines if the identifier/keyword is/is not the length of the whole code chunk
 
@@ -134,8 +111,45 @@ Token Lexer::nextToken() {
                sourceCode.erase(sourceCode.begin());
 
           //Now we can return the token
-          return Token("real", processedSubstring);
+          if (realOrInt == 1) //If token is a real
+               return Token("real", processedSubstring);
+          else
+               return Token("integer", processedSubstring);
+     }
 
+     else if (isOperator(codeChunk[0])) {
+          //Store the operator lexeme
+          string opLexeme = "";
+          opLexeme += codeChunk[0];
+          
+          //Update the code chunk
+          if (codeChunk.size() == 1) {
+               sourceCode.erase(sourceCode.begin());
+          }
+          else {
+               sourceCode[0] = codeChunk.substr(1, codeChunk.size());
+          }
+          
+          //Return the token
+          return Token("operator", opLexeme);
+     }
+
+
+     else if (isSeparator(codeChunk[0])) {
+          //Store the separator lexeme
+          string sepLexeme;
+          sepLexeme += codeChunk[0];
+          
+          //Update the code chunk
+          if (codeChunk.size() == 1) {
+               sourceCode.erase(sourceCode.begin());
+          }
+          else {
+               sourceCode[0] = codeChunk.substr(1, codeChunk.size());
+          }
+
+          //Return the token
+          return Token("separator", sepLexeme);
      }
 
 
@@ -159,6 +173,11 @@ bool Lexer::isIdentifier(string input, string &buffer) {
 
 bool Lexer::isReal(string input, string &buffer) {
      RealDFSM fsm;
+     return fsm.processInput(input, buffer);
+}
+
+bool Lexer::isInteger(string input, string &buffer) {
+     IntegerDFSM fsm;
      return fsm.processInput(input, buffer);
 }
 
