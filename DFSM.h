@@ -7,9 +7,10 @@ using namespace std;
 enum IdentifierStates { InitialIState, InvalidIdentifier, ValidIdentifier };
 enum RealStates {
      InitialRState, BeginSignedNumber, Integer, BeginNumberWithFractionalPart, NumberWithFractionalPart,
-     BeginNumberWithExponent, BeginNumberWithSignedExponent, NumberWithExponent, InvalidState
+     BeginNumberWithExponent, BeginNumberWithSignedExponent, NumberWithExponent, InvalidReal
 };
-
+//enum RealStates { InitialRState, Integer, BeginNumberWithFractionalPart, NumberWithFractionalPart, InvalidReal };
+enum IntegerStates { InitialIntState, InvalidInteger, ValidInteger};
 class DFSM {
 protected:
      int startingState;
@@ -17,7 +18,7 @@ protected:
      int currentState;
      set<int> finalStates;
 public:
-     virtual bool processInput(string) = 0;
+     virtual bool processInput(string, string&) = 0;
 };
 
 
@@ -33,7 +34,7 @@ public:
      }
 
      //Finite State Machine for validating identifier tokens
-     virtual bool processInput(string input) {
+     virtual bool processInput(string input, string &buffer) {
           char currentChar;
           for (int i = 0; i < input.size(); i++) {
                currentChar = input[i];
@@ -45,32 +46,34 @@ public:
                     return false; //Don't bother processing any more input
 
                case InitialIState:
-                    if (isdigit(currentChar))
+                    if (!isalpha(currentChar))
                          currentState = InvalidIdentifier;
-                    else if (!isalpha(currentChar) && currentChar != '_')
-                         currentState = InvalidIdentifier;
-                    else
+                    else {
+                         buffer += currentChar;
                          currentState = ValidIdentifier;
+                    }
                     break;
 
                case ValidIdentifier:
-                    if (!isalpha(currentChar) && currentChar != '_' && !isdigit(currentChar)) //If character is not a letter, digit or underscore
-                         currentState = InvalidIdentifier;
-                    else { //Else it is a valid character
-                         if (i == input.size() - 1) //If valid identifier and the whole string has been processed...
-                              return true;
-                         else
-                              break;
+                    if (isalpha(currentChar) || currentChar == '$' || isdigit(currentChar)) { //If character is a letter, $, or digit
+                         buffer += currentChar;
+                         currentState = ValidIdentifier;
                     }
+                    else                 //Else were encountered a space or some other character
+                         return true;   //Since we are in a valid state, return true
                     break;
                }
           }
+          //We will only reach this point if the input size is 1 character
+          //However, the state will have been correctly set by the fsm
+          if (currentState == InvalidIdentifier)
+               return false;
+          else
+               return true;
      }
-
 };
 
-
-
+/*
 class RealDFSM : public DFSM {
 public:
      RealDFSM() {
@@ -82,8 +85,9 @@ public:
           finalStates.insert(NumberWithFractionalPart);
           finalStates.insert(NumberWithExponent);
      }
+	 
 
-     virtual bool processInput(string input) {
+     virtual bool processInput(string input, string &buffer) {
           char currentChar;
           for (int i = 0; i < input.size(); i++) {
                currentChar = input[i];
@@ -92,7 +96,7 @@ public:
                //FSM implementation
                switch (currentState) {
 
-               case InvalidState:
+               case InvalidReal:
                     break;
 
                case InitialRState:
@@ -103,7 +107,7 @@ public:
                     else if (currentChar == '.')
                          currentState = BeginNumberWithFractionalPart;
                     else
-                         currentState = InvalidState;
+                         currentState = InvalidReal;
                     break;
 
                case BeginSignedNumber:
@@ -112,7 +116,7 @@ public:
                     else if (currentChar == '.')
                          currentState = BeginNumberWithFractionalPart;
                     else
-                         currentState = InvalidState;
+                         currentState = InvalidReal;
                     break;
 
                case Integer:
@@ -121,14 +125,14 @@ public:
                     else if (currentChar == '.')
                          currentState = BeginNumberWithFractionalPart;
                     else
-                         currentState = InvalidState;
+                         currentState = InvalidReal;
                     break;
 
                case BeginNumberWithFractionalPart:
                     if (isdigit(currentChar))
                          currentState = NumberWithFractionalPart;
                     else
-                         currentState = InvalidState;
+                         currentState = InvalidReal;
                     break;
 
                case NumberWithFractionalPart:
@@ -137,7 +141,7 @@ public:
                     else if (tolower(currentChar) == 'e')
                          currentState = BeginNumberWithExponent;
                     else
-                         currentState = InvalidState;
+                         currentState = InvalidReal;
                     break;
 
                case BeginNumberWithExponent:
@@ -146,21 +150,21 @@ public:
                     else if (currentChar == '+' || currentChar == '-')
                          currentState = BeginNumberWithSignedExponent;
                     else
-                         currentState = InvalidState;
+                         currentState = InvalidReal;
                     break;
 
                case BeginNumberWithSignedExponent:
                     if (isdigit(currentChar))
                          break;
                     else
-                         currentState = InvalidState;
+                         currentState = InvalidReal;
                     break;
 
                case NumberWithExponent:
                     if (isdigit(currentChar))
                          break;
                     else
-                         currentState = InvalidState;
+                         currentState = InvalidReal;
                     break;
                }
 
@@ -175,13 +179,115 @@ public:
           }
      }
 };
+*/
+class RealDFSM : public DFSM {
+public:
+     RealDFSM() {
+          startingState = InitialRState;
+          for (int i = 0; i < 7; i++)
+               states.insert(i);
+          currentState = startingState;
+          finalStates.insert(Integer);
+          finalStates.insert(NumberWithFractionalPart);
+          finalStates.insert(NumberWithExponent);
+     }
 
-/*
-For now, the real FSM can determine if it is an interger or a real.
+
+     virtual bool processInput(string input, string &buffer) {
+          char currentChar;
+          for (int i = 0; i < input.size(); i++) {
+               currentChar = input[i];
+
+
+               //FSM implementation
+               switch (currentState) {
+
+               case InvalidReal:
+                    break;
+
+               case InitialRState:
+                    if (currentChar == '+' || currentChar == '-')
+                         currentState = BeginSignedNumber;
+                    else if (isdigit(currentChar))
+                         currentState = Integer;
+                    else if (currentChar == '.')
+                         currentState = BeginNumberWithFractionalPart;
+                    else
+                         currentState = InvalidReal;
+                    break;
+
+               case BeginSignedNumber:
+                    if (isdigit(currentChar))
+                         currentState = Integer;
+                    else if (currentChar == '.')
+                         currentState = BeginNumberWithFractionalPart;
+                    else
+                         currentState = InvalidReal;
+                    break;
+
+               case Integer:
+                    if (isdigit(currentChar))
+                         break;
+                    else if (currentChar == '.')
+                         currentState = BeginNumberWithFractionalPart;
+                    else
+                         currentState = InvalidReal;
+                    break;
+
+               case BeginNumberWithFractionalPart:
+                    if (isdigit(currentChar))
+                         currentState = NumberWithFractionalPart;
+                    else
+                         currentState = InvalidReal;
+                    break;
+
+               case NumberWithFractionalPart:
+                    if (isdigit(currentChar))
+                         break;
+                    else if (tolower(currentChar) == 'e')
+                         currentState = BeginNumberWithExponent;
+                    else
+                         currentState = InvalidReal;
+                    break;
+
+               case BeginNumberWithExponent:
+                    if (isdigit(currentChar))
+                         currentState = NumberWithExponent;
+                    else if (currentChar == '+' || currentChar == '-')
+                         currentState = BeginNumberWithSignedExponent;
+                    else
+                         currentState = InvalidReal;
+                    break;
+
+               case BeginNumberWithSignedExponent:
+                    if (isdigit(currentChar))
+                         break;
+                    else
+                         currentState = InvalidReal;
+                    break;
+
+               case NumberWithExponent:
+                    if (isdigit(currentChar))
+                         break;
+                    else
+                         currentState = InvalidReal;
+                    break;
+               }
+
+
+               if (i == input.size() - 1) {
+                    set<int>::iterator p = finalStates.find(currentState);
+                    if (p == finalStates.end())//The current state is not in the set of final states
+                         return false;
+                    else                       //Otherwise the current state is a final state
+                         return true;
+               }
+          }
+     }
+};
 class IntegerDFSM : public DFSM {
 public:
      IntegerDFSM() {
 
      }
 };
-*/
