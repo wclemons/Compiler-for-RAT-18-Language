@@ -207,7 +207,7 @@ void SymbolTable::addEntry(Token t) {
 
 void SymbolTable::printTable() {
      if (entries.empty()) {
-          cout << "\nNo entries\n";
+          cout << "No entries\n";
           return;
      }
      cout << "    Token     |     Lexeme     |\n";
