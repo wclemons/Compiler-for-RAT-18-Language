@@ -1,7 +1,7 @@
 #include "Lexer.h"
 int main() { 
      Lexer lex;
-     if (lex.getSourceCode("test2.txt")){
+     if (lex.getSourceCode("test.txt")){
           SymbolTable table;
           Token t;
           while (true) {
