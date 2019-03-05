@@ -17,7 +17,7 @@ bool Lexer::getSourceCode(string fileName) {
                }
                //if (character != '!') Missing a closing !
           }
-          else if (character == ' ' || character == '\n') {
+          else if (character == ' ' || character == '\n' || character == '\t') {
                if (temp.size() == 0)
                     continue;
                sourceCode.push_back(temp);
@@ -210,9 +210,32 @@ void SymbolTable::printTable() {
           cout << "No entries\n";
           return;
      }
-     cout << "    Token     |     Lexeme     |\n";
-     cout << "--------------------------------\n";
+     cout << "    Token     |      Lexeme      |\n";
+     cout << "----------------------------------\n";
      for (list<Token>::iterator p = entries.begin(); p != entries.end(); p++) {
-          cout << left << "  " << setw(12) << p->tokenType << "|  " << setw(14) << p->lexeme << "|  " << endl;// << p->startingIndex << endl;
+          cout << left << "  " << setw(12) << p->tokenType << "|  " << setw(16) << p->lexeme << "|  " << endl;// << p->startingIndex << endl;
      }
+}
+
+void SymbolTable::writeTable() {
+     //file out handler
+     ofstream fileHandler;
+     fileHandler.open("output.txt");
+     //check if file didn't open
+     if (fileHandler.fail())
+     {
+          cout << "Filehandler failed." << endl;
+          return;
+     }
+
+     if (entries.empty()) {
+          cout << "No entries\n";
+          return;
+     }
+     fileHandler << "    Token     |     Lexeme     |\n";
+     fileHandler << "--------------------------------\n";
+     for (list<Token>::iterator p = entries.begin(); p != entries.end(); p++) {
+          fileHandler << left << "  " << setw(12) << p->tokenType << "|  " << setw(14) << p->lexeme << "|  " << endl;// << p->startingIndex << endl;
+     }
+     fileHandler.close();
 }
