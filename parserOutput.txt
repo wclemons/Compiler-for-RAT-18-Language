@@ -1,0 +1,116 @@
+Initializing stack and input cursor.
+Current character in input string: 'i'	Current symbol at the top of the stack: 'S'
+
+Expanding non-terminal 'i' to production rule 'i=E;'
+Current character in input string: 'i'	Current symbol at the top of the stack: 'i'
+
+Top of stack matched to current input. Popping stack and incrementing input cursor.
+Current character in input string: '='	Current symbol at the top of the stack: '='
+
+Top of stack matched to current input. Popping stack and incrementing input cursor.
+Current character in input string: 'i'	Current symbol at the top of the stack: 'E'
+
+Expanding non-terminal 'T' to production rule 'TQ'
+Current character in input string: 'i'	Current symbol at the top of the stack: 'T'
+
+Expanding non-terminal 'F' to production rule 'FR'
+Current character in input string: 'i'	Current symbol at the top of the stack: 'F'
+
+Expanding non-terminal 'i' to production rule 'i'
+Current character in input string: 'i'	Current symbol at the top of the stack: 'i'
+
+Top of stack matched to current input. Popping stack and incrementing input cursor.
+Current character in input string: '+'	Current symbol at the top of the stack: 'R'
+
+Epsilon encountered. Ignore non-terminal 'Q' and pop from stack.
+Current character in input string: '+'	Current symbol at the top of the stack: 'Q'
+
+Expanding non-terminal '+' to production rule '+TQ'
+Current character in input string: '+'	Current symbol at the top of the stack: '+'
+
+Top of stack matched to current input. Popping stack and incrementing input cursor.
+Current character in input string: 'i'	Current symbol at the top of the stack: 'T'
+
+Expanding non-terminal 'F' to production rule 'FR'
+Current character in input string: 'i'	Current symbol at the top of the stack: 'F'
+
+Expanding non-terminal 'i' to production rule 'i'
+Current character in input string: 'i'	Current symbol at the top of the stack: 'i'
+
+Top of stack matched to current input. Popping stack and incrementing input cursor.
+Current character in input string: '*'	Current symbol at the top of the stack: 'R'
+
+Expanding non-terminal '*' to production rule '*FR'
+Current character in input string: '*'	Current symbol at the top of the stack: '*'
+
+Top of stack matched to current input. Popping stack and incrementing input cursor.
+Current character in input string: '('	Current symbol at the top of the stack: 'F'
+
+Expanding non-terminal '(' to production rule '(E)'
+Current character in input string: '('	Current symbol at the top of the stack: '('
+
+Top of stack matched to current input. Popping stack and incrementing input cursor.
+Current character in input string: '('	Current symbol at the top of the stack: 'E'
+
+Expanding non-terminal 'T' to production rule 'TQ'
+Current character in input string: '('	Current symbol at the top of the stack: 'T'
+
+Expanding non-terminal 'F' to production rule 'FR'
+Current character in input string: '('	Current symbol at the top of the stack: 'F'
+
+Expanding non-terminal '(' to production rule '(E)'
+Current character in input string: '('	Current symbol at the top of the stack: '('
+
+Top of stack matched to current input. Popping stack and incrementing input cursor.
+Current character in input string: 'i'	Current symbol at the top of the stack: 'E'
+
+Expanding non-terminal 'T' to production rule 'TQ'
+Current character in input string: 'i'	Current symbol at the top of the stack: 'T'
+
+Expanding non-terminal 'F' to production rule 'FR'
+Current character in input string: 'i'	Current symbol at the top of the stack: 'F'
+
+Expanding non-terminal 'i' to production rule 'i'
+Current character in input string: 'i'	Current symbol at the top of the stack: 'i'
+
+Top of stack matched to current input. Popping stack and incrementing input cursor.
+Current character in input string: '/'	Current symbol at the top of the stack: 'R'
+
+Expanding non-terminal '/' to production rule '/FR'
+Current character in input string: '/'	Current symbol at the top of the stack: '/'
+
+Top of stack matched to current input. Popping stack and incrementing input cursor.
+Current character in input string: 'i'	Current symbol at the top of the stack: 'F'
+
+Expanding non-terminal 'i' to production rule 'i'
+Current character in input string: 'i'	Current symbol at the top of the stack: 'i'
+
+Top of stack matched to current input. Popping stack and incrementing input cursor.
+Current character in input string: ')'	Current symbol at the top of the stack: 'R'
+
+Epsilon encountered. Ignore non-terminal 'Q' and pop from stack.
+Current character in input string: ')'	Current symbol at the top of the stack: 'Q'
+
+Epsilon encountered. Ignore non-terminal ')' and pop from stack.
+Current character in input string: ')'	Current symbol at the top of the stack: ')'
+
+Top of stack matched to current input. Popping stack and incrementing input cursor.
+Current character in input string: ')'	Current symbol at the top of the stack: 'R'
+
+Epsilon encountered. Ignore non-terminal 'Q' and pop from stack.
+Current character in input string: ')'	Current symbol at the top of the stack: 'Q'
+
+Epsilon encountered. Ignore non-terminal ')' and pop from stack.
+Current character in input string: ')'	Current symbol at the top of the stack: ')'
+
+Top of stack matched to current input. Popping stack and incrementing input cursor.
+Current character in input string: ';'	Current symbol at the top of the stack: 'R'
+
+Epsilon encountered. Ignore non-terminal 'Q' and pop from stack.
+Current character in input string: ';'	Current symbol at the top of the stack: 'Q'
+
+Epsilon encountered. Ignore non-terminal ';' and pop from stack.
+Current character in input string: ';'	Current symbol at the top of the stack: ';'
+
+Top of stack matched to current input. Popping stack and incrementing input cursor.
+Current character in input string: '$'	Current symbol at the top of the stack: '$'
